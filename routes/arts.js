@@ -30,4 +30,22 @@ router.route('/')
       })
   })
 
+  router.route('/:id')
+  .get((req,res)=>{
+    let id = req.params.id;
+    return Art.query({where: {id}})
+    .fetchAll()
+    .then(arts=>{
+      if(!arts){
+        return res.status(404).json({"message": "post does not exist"})
+      }else {
+        res.json(arts)
+      }
+    })
+    .catch(err=>{
+      return res.json({"message":err.message})
+    })
+
+  })
+
 module.exports = router;
