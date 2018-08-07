@@ -30,22 +30,39 @@ router.route('/')
       })
   })
 
-  router.route('/:id')
-  .get((req,res)=>{
+router.route('/:id')
+  .get((req, res) => {
     let id = req.params.id;
-    return Art.query({where: {id}})
-    .fetchAll()
-    .then(arts=>{
-      if(!arts){
-        return res.status(404).json({"message": "post does not exist"})
-      }else {
-        res.json(arts)
-      }
-    })
-    .catch(err=>{
-      return res.json({"message":err.message})
-    })
-
+    return Art
+      .query({ where: { id } })
+      .fetchAll()
+      .then(arts => {
+        if (!arts) {
+          return res.status(404).json({ "message": "artwork does not exist" })
+        } else {
+          res.json(arts)
+        }
+      })
+      .catch(err => {
+        res.json({"message": err.message})
+      })
   })
+  .put((req, res) => {
+    let id = req.params.id;
+    let { author, link, description } = req.body
+    return new Art({ id: id })
+      .save({ author, link, description })
+      .then(arts => {
+        if(!arts){
+          res.status(404).json({"message": "artwork does not exist"})
+        }else {
+          res.json(arts)
+        }
+      })
+      .catch(err => {
+        return res.json({ "message": err.message })
+      })
+  })
+
 
 module.exports = router;
