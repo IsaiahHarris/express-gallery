@@ -7,7 +7,7 @@ router.route('/')
     return Art
       .fetchAll()
       .then(arts => {
-        console.log(arts.models[0].attributes)
+        // console.log(arts.models[0].attributes)
         let artsArr = arts.map(element=>{
           return element.attributes;
         })
