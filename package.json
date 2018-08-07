@@ -23,6 +23,11 @@
     "bookshelf": "^0.13.3",
     "express": "^4.16.3",
     "knex": "^0.13.0",
+    "lodash": "^4.17.10",
+    "method-override": "^3.0.0",
     "pg": "^7.4.3"
+  },
+  "devDependencies": {
+    "express-handlebars": "^3.0.0"
   }
 }

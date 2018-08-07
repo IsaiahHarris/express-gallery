@@ -1,20 +1,27 @@
 const express = require('express');
 const router = express.Router();
 const Art = require('../models/Art');
-
+// const _ = require('lodash')
 router.route('/')
   .get((req, res) => {
     return Art
       .fetchAll()
       .then(arts => {
+        console.log(arts.models[0].attributes)
+        let artsArr = arts.map(element=>{
+          return element.attributes;
+        })
         if (!arts) {
           return res.json({ "message": "there is no art" })
         } else {
-          return res.json(arts)
+          res.render('gallery/home', {
+            arts: artsArr
+          })
         }
       })
       .catch(err => {
-        return res.json({ "message": err.message })
+        console.log(err);
+        return res.json({ "message": 'heyyy' })
       })
   })
   .post((req, res) => {
@@ -79,22 +86,22 @@ router.route('/:id')
       })
   })
 
-  router.get('/:id/edit', (req,res)=>{
-    const id = req.params.id;
-    return Art
-    .query({where:{id:id}})
+router.get('/:id/edit', (req, res) => {
+  const id = req.params.id;
+  return Art
+    .query({ where: { id: id } })
     .fetchAll()
-    .then(arts=>{
-      if(!arts){
-        res.status(404).json({"message":"artwork not found"})
-      }else {
+    .then(arts => {
+      if (!arts) {
+        res.status(404).json({ "message": "artwork not found" })
+      } else {
         res.json(arts)
       }
     })
-    .catch(err=>{
-      res.json({"message":err.message})
+    .catch(err => {
+      res.json({ "message": err.message })
     })
-  })
+})
 
 
 
