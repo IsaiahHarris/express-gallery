@@ -98,10 +98,17 @@ router.get('/:id/edit', (req, res) => {
     .query({ where: { id: id } })
     .fetchAll()
     .then(arts => {
+      
+      let artsArr = arts.map(element=>{
+        return element.attributes;
+      })
+      console.log(artsArr[0])
       if (!arts) {
         res.status(404).json({ "message": "artwork not found" })
       } else {
-        res.json(arts)
+        res.render('gallery/edit',{
+          arts: artsArr[0]
+        })
       }
     })
     .catch(err => {
