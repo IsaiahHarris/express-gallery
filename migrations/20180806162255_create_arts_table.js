@@ -4,7 +4,7 @@ exports.up = function (knex, Promise) {
     table.increments();
     table.string('link')
     table.text('description');
-    table.string('author').notNullable();
+    table.integer('author_id').references('users.id')
     table.timestamps(true, true);
   })
 };

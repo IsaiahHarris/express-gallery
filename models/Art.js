@@ -9,4 +9,4 @@ class Art extends bookshelf.Model{
   }
 }
 
-module.exports = bookshelf.model('Art', Art)
+module.exports = bookshelf.model('Art', Art);
