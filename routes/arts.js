@@ -30,7 +30,7 @@ router.route('/')
     return new Art({ author, link, description })
       .save()
       .then(post => {
-        return res.json(post)
+        return res.redirect('/arts')
       })
       .catch(err => {
         return res.json({ "message": err.message })
@@ -38,7 +38,7 @@ router.route('/')
   })
 
 router.get('/new', (req, res) => {
-  res.send('newpage')
+  res.render('gallery/new')
 })
 
 router.route('/:id')
