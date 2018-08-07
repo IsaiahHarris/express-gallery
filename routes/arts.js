@@ -79,6 +79,23 @@ router.route('/:id')
       })
   })
 
+  router.get('/:id/edit', (req,res)=>{
+    const id = req.params.id;
+    return Art
+    .query({where:{id:id}})
+    .fetchAll()
+    .then(arts=>{
+      if(!arts){
+        res.status(404).json({"message":"artwork not found"})
+      }else {
+        res.json(arts)
+      }
+    })
+    .catch(err=>{
+      res.json({"message":err.message})
+    })
+  })
+
 
 
 
