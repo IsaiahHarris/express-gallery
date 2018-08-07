@@ -48,10 +48,16 @@ router.route('/:id')
       .query({ where: { id: id } })
       .fetchAll()
       .then(arts => {
+        let artsArr = arts.map(element=>{
+          return element.attributes;
+        })
+        console.log(artsArr[0].id)
         if (!arts) {
           return res.status(404).json({ "message": "artwork does not exist" })
         } else {
-          res.json(arts)
+          res.render('gallery/artwork',{
+            arts: artsArr[0]
+          })
         }
       })
       .catch(err => {
