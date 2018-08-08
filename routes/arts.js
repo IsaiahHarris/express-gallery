@@ -66,14 +66,14 @@ router.route('/:id')
   })
   .put((req, res) => {
     let id = req.params.id;
-    let { author, link, description } = req.body
+    let { author_id, link, description } = req.body
     return new Art({ id: id })
-      .save({ author, link, description })
+      .save({ author_id, link, description })
       .then(arts => {
         if (!arts) {
           res.status(404).json({ "message": "artwork does not exist" })
         } else {
-          res.json(arts)
+          res.redirect('/arts')
         }
       })
       .catch(err => {
