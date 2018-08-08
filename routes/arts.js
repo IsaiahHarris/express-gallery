@@ -52,7 +52,6 @@ router.route('/:id')
         let artsArr = arts.map(element=>{
           return element.attributes;
         })
-        console.log(artsArr[0].id)
         if (!arts) {
           return res.status(404).json({ "message": "artwork does not exist" })
         } else {
@@ -103,7 +102,7 @@ router.get('/:id/edit', (req, res) => {
       let artsArr = arts.map(element=>{
         return element.attributes;
       })
-      console.log(artsArr[0])
+      // console.log(artsArr[0])
       if (!arts) {
         res.status(404).json({ "message": "artwork not found" })
       } else {

@@ -32,7 +32,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.serializeUser((user, done) => {
-  console.log(user)
+
   return done(null, {
     id: user.id,
     name: user.name
@@ -40,15 +40,17 @@ passport.serializeUser((user, done) => {
 })
 
 passport.deserializeUser((user, done) => {
-  console.log('hii')
   new User({ id: user.id }).fetch()
     .then(user => {
-      console.log(user);
-      user = user.toJSON();
-      return done(null, {
-        id: user.id,
-        name: user.name
-      })
+      if(!user){
+        return done(null, false)
+      }else {
+        user = user.toJSON();
+        return done(null, {
+          id: user.id,
+          username: user.username
+        })
+      }  
     })
     .catch(err => {
       console.log(err);
@@ -57,21 +59,21 @@ passport.deserializeUser((user, done) => {
 })
 
 passport.use(new LocalStrategy({
-  usernameField: 'email'
-},function (email, password, done) {
-  return new User({ email })
+  usernameField: 'username'
+},function (username, password, done) {
+  return new User({ username })
     .fetch()
     .then(user => {
-      console.log(user);
+
       
       if (user === null) {
-        return done(null, false, { message: 'bad email or password' })
+        return done(null, false, { message: 'bad username or password' })
       } else {
         user = user.toJSON()
         if (password === user.password) {
           return done(null, user)
         } else {
-          return done(null, false, { message: 'bad email or password' })
+          return done(null, false, { message: 'bad username or password' })
         }
       }
     })
@@ -79,19 +81,23 @@ passport.use(new LocalStrategy({
       return done(err);
     })
 }))
+app.get('/register',(req,res)=>{
+  res.render('gallery/register')
+})
+
 app.get('/login', (req, res) => {
   res.render('gallery/login')
 })
 
 app.post('/register', (req, res) => {
   return new User({
-    name: req.body.name,
     email: req.body.email,
+    username: req.body.username,
     password: req.body.password
   })
     .save()
     .then(user => {
-      console.log(user)
+
       res.redirect('/arts')
     })
     .catch(err => {
