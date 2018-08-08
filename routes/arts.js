@@ -16,6 +16,7 @@ router.route('/')
         let artsArr = arts.map(element=>{
           return element.attributes;
         })
+        console.log(artsArr)
         if (!arts) {
           return res.json({ "message": "there is no art" })
         } else {
@@ -30,9 +31,9 @@ router.route('/')
       })
   })
   .post((req, res) => {
-    let {link, description } = req.body;
+    let {author, link, description } = req.body;
     link = link.toLowerCase();
-    return new Art({link, description })
+    return new Art({link, description, author })
       .save()
       .then(post => {
         return res.redirect('/arts')
