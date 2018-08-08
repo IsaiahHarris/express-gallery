@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 const routes = require('./routes');
 const app = express();
 const User = require('./models/User')
+const helper = require('./routes/helper')
 const PORT = process.env.PORT || 8080
 app.use(express.static('./public'))
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -64,8 +65,6 @@ passport.use(new LocalStrategy({
   return new User({ username })
     .fetch()
     .then(user => {
-
-      
       if (user === null) {
         return done(null, false, { message: 'bad username or password' })
       } else {
@@ -111,20 +110,12 @@ app.post('/login', passport.authenticate('local',{
   failureRedirect: '/login'
 }))
 
-app.post('/logout', (req, res) => {
+app.get('/logout', (req, res) => {
   req.logout();
   res.sendStatus(200)
 })
 
-function isAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    next()
-  } else {
-    res.redirect('/arts')
-  }
-}
-
-app.get('/secret', isAuthenticated, (req, res) => {
+app.get('/secret',helper.isAuthenticated, (req, res) => {
   res.send('you found the secret')
 })
 app.engine('.hbs', exphbs({
@@ -139,7 +130,3 @@ app.use('/', routes);
 app.listen(PORT, () => {
   console.log(`listening to port ${PORT}`)
 })
-
-module.exports = {
-  isAuthenticated: isAuthenticated
-}

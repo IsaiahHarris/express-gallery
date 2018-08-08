@@ -3,6 +3,10 @@ const router = express.Router();
 const Art = require('../models/Art');
 const server = require('../server')
 // const _ = require('lodash')
+const helper = require('./helper')
+
+router.use(helper.isAuthenticated)
+
 router.route('/')
   .get((req, res) => {
     return Art
@@ -73,7 +77,7 @@ router.route('/:id')
         if (!arts) {
           res.status(404).json({ "message": "artwork does not exist" })
         } else {
-          res.redirect('/arts')
+          res.redirect(`/arts/${id}`)
         }
       })
       .catch(err => {
