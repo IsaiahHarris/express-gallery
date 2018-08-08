@@ -96,7 +96,6 @@ app.post('/register', (req, res) => {
   })
     .save()
     .then(user => {
-
       res.redirect('/arts')
     })
     .catch(err => {
@@ -107,12 +106,12 @@ app.post('/register', (req, res) => {
 
 app.post('/login', passport.authenticate('local',{
   successRedirect: '/arts',
-  failureRedirect: '/login'
+  failureRedirect: '/register'
 }))
 
 app.get('/logout', (req, res) => {
   req.logout();
-  res.render('gallery/login')
+  res.redirect('/login')
 })
 
 app.get('/secret',helper.isAuthenticated, (req, res) => {
