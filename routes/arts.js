@@ -85,7 +85,7 @@ router.route('/:id')
     return new Art({ id: id })
       .destroy()
       .then(result => {
-        res.send('has been deleted')
+        res.redirect('/arts')
       })
       .catch(err => {
         res.send('there has been an error')
