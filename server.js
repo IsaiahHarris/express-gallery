@@ -63,10 +63,11 @@ passport.use(new LocalStrategy({
     .fetch()
     .then(user => {
       console.log(user);
-      user = user.toJSON()
+      
       if (user === null) {
         return done(null, false, { message: 'bad email or password' })
       } else {
+        user = user.toJSON()
         if (password === user.password) {
           return done(null, user)
         } else {
