@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Art = require('../models/Art');
+const server = require('../server')
 // const _ = require('lodash')
 router.route('/')
   .get((req, res) => {
@@ -25,9 +26,9 @@ router.route('/')
       })
   })
   .post((req, res) => {
-    let { author_id, link, description } = req.body;
+    let {link, description } = req.body;
     link = link.toLowerCase();
-    return new Art({ author_id, link, description })
+    return new Art({link, description })
       .save()
       .then(post => {
         return res.redirect('/arts')

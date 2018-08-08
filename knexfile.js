@@ -16,7 +16,7 @@ module.exports = {
     migrations: {
       tableName: 'knex_migrations'
     },
-    debug:false
+    debug:true
   },
 
   staging: {
