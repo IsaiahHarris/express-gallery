@@ -112,7 +112,7 @@ app.post('/login', passport.authenticate('local',{
 
 app.get('/logout', (req, res) => {
   req.logout();
-  res.sendStatus(200)
+  res.render('gallery/login')
 })
 
 app.get('/secret',helper.isAuthenticated, (req, res) => {
