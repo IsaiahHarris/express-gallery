@@ -1,14 +1,23 @@
-<div>hii</div>
-<div class="container">
+<div class="arts-home-header-container">
+  <div class="arts-home-header-title">
+    _ARCHITEKT
+  </div>
+</div>
+<div class="arts-home-second-header-container">
   <form action="/arts/new">
-  <input type="submit" value="add an artwork">
+    <input type="submit" value="add an artwork" class="add-artwork-button">
   </form>
-{{#each arts}}
-<form action="/arts/{{id}}">
-<input type="submit" value="{{id}}">
-</form>
-<h5>Author: {{author}}</h5>
-<p>Link: {{link}}</p>
-<p>Description {{description}}</p>
-{{/each}}
+</div>
+
+<div class="arts-entries-container">
+  {{#each arts}}
+  <div class="arts-entry">
+    <form action="/arts/{{id}}">
+      <input type="submit" value="{{id}}">
+    </form>
+    <h5 class="author">Author: {{author}}</h5>
+    <p class="link">Link: {{link}}</p>
+    <p class="description">Description {{description}}</p>
+  </div>
+  {{/each}}
 </div>

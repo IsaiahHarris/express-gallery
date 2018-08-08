@@ -13,7 +13,7 @@ router.route('/')
       .fetchAll()
       .then(arts => {
         // console.log(arts.models[0].attributes)
-        let artsArr = arts.map(element=>{
+        let artsArr = arts.map(element => {
           return element.attributes;
         })
         console.log(artsArr)
@@ -31,9 +31,9 @@ router.route('/')
       })
   })
   .post((req, res) => {
-    let {author, link, description } = req.body;
+    let { author, link, description } = req.body;
     link = link.toLowerCase();
-    return new Art({link, description, author })
+    return new Art({ link, description, author })
       .save()
       .then(post => {
         return res.redirect('/arts')
@@ -54,13 +54,13 @@ router.route('/:id')
       .query({ where: { id: id } })
       .fetchAll()
       .then(arts => {
-        let artsArr = arts.map(element=>{
+        let artsArr = arts.map(element => {
           return element.attributes;
         })
         if (!arts) {
           return res.status(404).json({ "message": "artwork does not exist" })
         } else {
-          res.render('gallery/artwork',{
+          res.render('gallery/artwork', {
             arts: artsArr[0]
           })
         }
@@ -103,15 +103,15 @@ router.get('/:id/edit', (req, res) => {
     .query({ where: { id: id } })
     .fetchAll()
     .then(arts => {
-      
-      let artsArr = arts.map(element=>{
+
+      let artsArr = arts.map(element => {
         return element.attributes;
       })
       // console.log(artsArr[0])
       if (!arts) {
         res.status(404).json({ "message": "artwork not found" })
       } else {
-        res.render('gallery/edit',{
+        res.render('gallery/edit', {
           arts: artsArr[0]
         })
       }

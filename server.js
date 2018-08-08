@@ -8,8 +8,10 @@ const methodOverride = require('method-override');
 const bodyParser = require('body-parser');
 const routes = require('./routes');
 const app = express();
-const User = require('./models/User')
-const helper = require('./routes/helper')
+const User = require('./models/User');
+const helper = require('./routes/helper');
+const bcrypt = require('bcrypt');
+const saltedRounds = 12;
 const PORT = process.env.PORT || 8080
 app.use(express.static('./public'))
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -43,15 +45,15 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((user, done) => {
   new User({ id: user.id }).fetch()
     .then(user => {
-      if(!user){
+      if (!user) {
         return done(null, false)
-      }else {
+      } else {
         user = user.toJSON();
         return done(null, {
           id: user.id,
           username: user.username
         })
-      }  
+      }
     })
     .catch(err => {
       console.log(err);
@@ -61,7 +63,7 @@ passport.deserializeUser((user, done) => {
 
 passport.use(new LocalStrategy({
   usernameField: 'username'
-},function (username, password, done) {
+}, function (username, password, done) {
   return new User({ username })
     .fetch()
     .then(user => {
@@ -69,18 +71,21 @@ passport.use(new LocalStrategy({
         return done(null, false, { message: 'bad username or password' })
       } else {
         user = user.toJSON()
-        if (password === user.password) {
-          return done(null, user)
-        } else {
-          return done(null, false, { message: 'bad username or password' })
-        }
+        bcrypt.compare(password, user.password)
+          .then(samePassword => {
+            if (samePassword) {
+              return done(null, user)
+            } else {
+              return done(null, false, { message: 'bad username or password' })
+            }
+          })
       }
     })
     .catch(err => {
       return done(err);
     })
 }))
-app.get('/register',(req,res)=>{
+app.get('/register', (req, res) => {
   res.render('gallery/register')
 })
 
@@ -89,22 +94,34 @@ app.get('/login', (req, res) => {
 })
 
 app.post('/register', (req, res) => {
-  return new User({
-    email: req.body.email,
-    username: req.body.username,
-    password: req.body.password
+  bcrypt.genSalt(saltedRounds, (err, salt) => {
+    if (err) {
+      return res.status(500)
+    } else {
+      bcrypt.hash(req.body.password, salt, (err, hashedPassword) => {
+        if (err) {
+          return res.status(500)
+        } else {
+          return new User({
+            email: req.body.email,
+            username: req.body.username,
+            password: req.body.password
+          })
+            .save()
+            .then(user => {
+              res.redirect('/arts')
+            })
+            .catch(err => {
+              console.log(err);
+              return res.send('could not register you')
+            })
+        }
+      })
+    }
   })
-    .save()
-    .then(user => {
-      res.redirect('/arts')
-    })
-    .catch(err => {
-      console.log(err);
-      return res.send('could not register you')
-    })
 })
 
-app.post('/login', passport.authenticate('local',{
+app.post('/login', passport.authenticate('local', {
   successRedirect: '/arts',
   failureRedirect: '/register'
 }))
@@ -114,7 +131,7 @@ app.get('/logout', (req, res) => {
   res.redirect('/login')
 })
 
-app.get('/secret',helper.isAuthenticated, (req, res) => {
+app.get('/secret', helper.isAuthenticated, (req, res) => {
   res.send('you found the secret')
 })
 app.engine('.hbs', exphbs({
