@@ -12,11 +12,10 @@
 <div class="arts-entries-container">
   {{#each arts}}
   <div class="arts-entry">
-    <form action="/arts/{{id}}">
-      <input type="submit" value="{{id}}">
-    </form>
     <h5 class="author">Author: {{author}}</h5>
-    <p class="link">Link: {{link}}</p>
+     <form action="/arts/{{id}}">
+      <input class = "link" type="submit" value="{{link}}">
+    </form>
     <p class="description">Description {{description}}</p>
   </div>
   {{/each}}
