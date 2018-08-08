@@ -39,18 +39,7 @@ passport.serializeUser((user, done)=>{
 })
 
 passport.deserializeUser((user,done)=>{
-  new User({id:user.id})
-  .fetch()
-  .then(user=>{
-    user = user.toJSON();
-    return done(null,{
-      id: user.id,
-      username: username
-    })
-  })
-  .catch(err=>{
-    return done(err)
-  })
+ return done(user);
 })
 
 passport.use(new LocalStrategy(function(username, password,done){
@@ -73,26 +62,28 @@ passport.use(new LocalStrategy(function(username, password,done){
   })
 }))
 
-app.post('/register', (req,res)=>{
+app.post('/arts/register', (req,res)=>{
   return new User({
-    username: req.body.username,
+    name: req.body.name,
+    email: req.body.email,
     password: req.body.password
   })
   .save()
   .then(user=>{
-    res.redirect('/')
+    res.redirect('/arts')
   })
   .catch(err=>{
+    console.log(err);
     return res.send('could not register you')
   })  
 })
 
-app.post('/login', passport.authenticate('local',{
+app.post('/arts/login', passport.authenticate('local',{
   successRedirect: '/secret',
-  failureRedirect: '/'
+  failureRedirect: '/arts'
 }))
 
-app.post('/logout', (req,res)=>{
+app.post('/arts/logout', (req,res)=>{
   req.logout();
   res.sendStatus(200)
 })
@@ -101,7 +92,7 @@ function isAuthenticated(req,res,next){
   if(req.isAuthenticated()){
     next()
   }else {
-    res.redirect('/')
+    res.redirect('/arts')
   }
 }
 
