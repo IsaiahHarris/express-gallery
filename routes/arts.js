@@ -25,9 +25,9 @@ router.route('/')
       })
   })
   .post((req, res) => {
-    let { author, link, description } = req.body;
+    let { author_id, link, description } = req.body;
     link = link.toLowerCase();
-    return new Art({ author, link, description })
+    return new Art({ author_id, link, description })
       .save()
       .then(post => {
         return res.redirect('/arts')
