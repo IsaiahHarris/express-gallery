@@ -33,29 +33,29 @@ router.get('/:id', (req,res)=>{
     withRelated: ['arts']
   })
   .then(user=>{
-    console.log('THIS IS USR',user)
+    
      let arts = user.related('arts').toJSON()
-
       res.render('users/user',{
-        posts: arts
+        posts: arts,
+        id: user.attributes.id
       })
-
-    if(user){
-     
-      // let _user = user.attributes.parse()
-      // console.log(_user)
-      // res.json(_user)
-      // let arts = user.related('arts')
-      // console.log(arts[0])
-      // res.json(arts[0])
-      // res.render('users/user',{
-      //   posts: account
-      // })
-    }
   })
   .catch(err=>{
     res.json({"message": err.message})
   })
+})
+
+router.delete('/:id', (req,res)=>{
+  let id = req.params.id;
+  return new User({ id: id })
+    .destroy()
+    .then(result => {
+      console.log('delete')
+      res.redirect('/users')
+    })
+    .catch(err => {
+      res.send('there has been an error')
+    })
 })
    
  
