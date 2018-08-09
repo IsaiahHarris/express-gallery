@@ -12,13 +12,11 @@
 <div class="arts-entries-container">
   {{#each arts}}
   <div class="arts-entry">
-    <img class = 'photo' src="https://loremflickr.com/270/150/art">
-    <div class = 'arts-entry-details'>
-<h5 class="author">Author: {{author}}</h5>
-     <form action="/arts/{{id}}">
-      <input class = "link" type="submit" value="view post">
-    </form>
-    <p class="description">Description {{description}}</p>
+    <img class='photo' src="https://loremflickr.com/270/150/art">
+    <div class='arts-entry-details'>  
+      <h5 class="author">Author: {{author}}</h5>
+      <a href="/arts/{{id}}">View Post</a>
+      <p class="description">Description {{description}}</p>
     </div>
   </div>
   {{/each}}
