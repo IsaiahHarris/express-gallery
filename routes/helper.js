@@ -1,5 +1,5 @@
 function isAuthenticated(req, res, next) {
-  console.log('wassup');
+  console.log('isAuthenticated');
   if (req.isAuthenticated()) {
     next()
   } else {
@@ -7,6 +7,17 @@ function isAuthenticated(req, res, next) {
   }
 }
 
+
+function isAdmin(req,res,next){
+  console.log('isAdmin')
+  console.log(req.user.id)
+  if(req.user.id === 20){
+    next()
+  }else {
+    res.redirect('/users')
+  }
+}
 module.exports = {
-  isAuthenticated
+  isAuthenticated,
+  isAdmin
 }

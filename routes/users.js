@@ -45,7 +45,7 @@ router.get('/:id', (req,res)=>{
   })
 })
 
-router.delete('/:id', (req,res)=>{
+router.delete('/:id', helper.isAdmin, (req,res)=>{
   let id = req.params.id;
   return new User({ id: id })
     .destroy()
