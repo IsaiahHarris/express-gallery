@@ -4,10 +4,10 @@
   </div>
 </div>
 <div class="arts-home-second-header-container">
-  <form action="/arts/new">
+  <form class = "new-art-form"action="/arts/new">
     <input type="submit" value="Add An Artwork" class="add-artwork-button">
   </form>
-  <form action="/logout">
+  <form class="logout-form" action="/logout">
   <input type="submit" value="logout" class = "logout-button">
   </form>
 </div>
@@ -18,7 +18,7 @@
     {{#each arts}}
     <img class='photo' src="https://loremflickr.com/270/150/art">
     <div class='arts-entry-details'>  
-      <a href="/users/{{author_id}}">{{author}}</a>
+      <a class = "author" href="/users/{{author_id}}">{{author}}</a>
       <a href="/arts/{{id}}">http://localhost:8080/arts/{{id}}</a>
       <p class="description">Description:{{description}}</p>
     </div>

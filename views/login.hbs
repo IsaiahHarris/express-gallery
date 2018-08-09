@@ -1,0 +1,14 @@
+<div class="login-page-header">
+{{#if loginFailed}}
+<div class = "login-message" >Login, or create an Architekt account.</div>
+{{/if}}
+</div>
+
+
+<form action="/login" method="POST">
+<div class = "login-form-container">
+  <input class = "username" type="text" name="username" placeholder="Username">
+  <input class = "password" type="text" name="password" placeholder="Password">
+  <input class = "submit" type="submit" value="submit">
+  </div>
+</form>

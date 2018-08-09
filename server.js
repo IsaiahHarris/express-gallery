@@ -90,7 +90,7 @@ app.get('/register', (req, res) => {
   res.render('gallery/register')
 })
 
-app.get('/login', (req, res) => {
+app.get('/login', helper.isAuthenticated,(req, res) => {
   res.render('gallery/login')
 })
 
@@ -124,7 +124,7 @@ app.post('/register', (req, res) => {
 
 app.post('/login', passport.authenticate('local', {
   successRedirect: '/arts',
-  failureRedirect: '/register'
+  failureRedirect: '/login'
 }))
 
 app.get('/logout', (req, res) => {
