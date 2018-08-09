@@ -5,7 +5,7 @@ class User extends bookshelf.Model{
   get hasTimestamps() { return true };
 
   arts(){
-    return this.hasMany('Arts', 'author_id')
+    return this.hasMany('Art', 'author_id')
   }
 }
 

@@ -25,7 +25,24 @@ router.get('/', (req,res)=>{
     return res.json({"message": "there was an error"})
   })
 })
-  
+
+router.get('/:id', (req,res)=>{
+  let id = req.params.id;
+  return new User({id:id})
+  .fetch({
+    withRelated: ['arts']
+  })
+  .then(user=>{
+    if(user){
+      let account = user.related('arts')
+      console.log('THIS IS ACCOUNT', user.arts)
+      res.json(user)
+    }
+  })
+  .catch(err=>{
+    res.json({"message": err.message})
+  })
+})
    
  
 
