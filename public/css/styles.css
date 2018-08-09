@@ -94,7 +94,36 @@ width:310px;
   width: 355px;
 }
 
+.artwork-action-container{
+  margin:0 auto;
+  display:flex;
+  width:300px;
+  justify-content: space-evenly;
+  margin-top:75px;
+}
 
+.edit-item-button, .delete-item-button{
+  height: 45px;
+  width:110px;
+  font-size: 18px;
+  text-align: center;
+}
+
+.edit-item-button{
+  background-color:lightcyan;
+}
+
+.edit-item-button:active{
+  background-color: lightblue;
+}
+
+.delete-item-button{
+  background-color: #ff6666;
+}
+
+.delete-item-button{
+  background-color: #ff4c4c;
+}
 .author, .description{
   color:#282828;
   font-size:17px;
