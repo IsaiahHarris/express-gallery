@@ -1,0 +1,15 @@
+<h1>Art</h1>
+
+<div>{{arts.id}}</div>
+<div>{{arts.author}}</div>
+<div>{{arts.link}}</div>
+<div>{{arts.description}}</div>
+
+<form action="/arts/{{arts.id}}/edit" method="GET" enctype="application/x-www-form-urlencoded">
+<input type="submit" value="edit item">
+</form>
+
+<form action="/arts/{{arts.id}}" method="POST" enctype="application/x-www-form-urlencoded">
+<input type="hidden" name="_method" value="DELETE">
+<input type="submit" value="delete item">
+</form>

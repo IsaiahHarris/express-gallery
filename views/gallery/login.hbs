@@ -1,0 +1,8 @@
+{{#if loginFailed}}
+<div>login failed please try again</div>
+{{/if}}
+<form action="/login" method="POST">
+  <input type="text" name="username" value="{{username}}">
+  <input type="text" name="password" value="{{password}}">
+  <input type="submit" value="submit">
+</form>

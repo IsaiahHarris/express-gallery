@@ -1,0 +1,11 @@
+<form action="/users/{{id}}" method="POST" enctype="application/x-www-form-urlencoded">
+<input type="hidden" name="_method" value="DELETE">
+<input type="submit" value="delete user(admin only)">
+</form>
+
+{{#each posts}}
+<div>id: {{id}}</div>
+<div>posts: {{link}}</div>
+<div>description{{description}}</div>
+{{/each}}
+
