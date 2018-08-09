@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const Art = require('../models/Art');
-const server = require('../server')
 // const _ = require('lodash')
 const helper = require('./helper')
 

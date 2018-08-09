@@ -1,4 +1,5 @@
 const express = require('express');
+const app = express();
 const session = require('express-session');
 const Redis = require('connect-redis')(session)
 const passport = require('passport')
@@ -6,12 +7,12 @@ const LocalStrategy = require('passport-local')
 const exphbs = require('express-handlebars');
 const methodOverride = require('method-override');
 const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt');
 const routes = require('./routes');
-const app = express();
 const User = require('./models/User');
 const helper = require('./routes/helper');
-const bcrypt = require('bcrypt');
 const saltedRounds = 12;
+const users = require('./routes/users')
 const PORT = process.env.PORT || 8080
 app.use(express.static('./public'))
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -142,6 +143,7 @@ app.engine('.hbs', exphbs({
 app.set('view engine', '.hbs');
 
 app.use('/', routes);
+app.use('/users', users)
 
 app.listen(PORT, () => {
   console.log(`listening to port ${PORT}`)

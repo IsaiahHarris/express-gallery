@@ -1,0 +1,18 @@
+<div class="users-home-header-container">
+  <div class="users-home-header-title">
+    _ARCHITEKT USERS
+  </div>
+</div>
+<div class="users-entries-container">
+  
+  <div class="users-entry">
+    {{#each users}}
+    <img class='photo' src="https://loremflickr.com/270/150/">
+    <div class='users-entry-details'>  
+      <p class="username">username: {{username}}</p>
+      <a href="/users/{{id}}">View Posts By This User</a>
+    </div>
+    {{/each}}
+  </div>
+  
+</div>
