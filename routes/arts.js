@@ -30,9 +30,11 @@ router.route('/')
       })
   })
   .post((req, res) => {
+    console.log('REQ.USER.ID',req.user.id);
     let { author, link, description } = req.body;
+    let author_id = req.user.id;
     link = link.toLowerCase();
-    return new Art({ link, description, author })
+    return new Art({ author_id, link, description, author })
       .save()
       .then(post => {
         return res.redirect('/arts')

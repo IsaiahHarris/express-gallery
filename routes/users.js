@@ -33,10 +33,24 @@ router.get('/:id', (req,res)=>{
     withRelated: ['arts']
   })
   .then(user=>{
+    console.log('THIS IS USR',user)
+     let arts = user.related('arts').toJSON()
+
+      res.render('users/user',{
+        posts: arts
+      })
+
     if(user){
-      let account = user.related('arts')
-      console.log('THIS IS ACCOUNT', user.arts)
-      res.json(user)
+     
+      // let _user = user.attributes.parse()
+      // console.log(_user)
+      // res.json(_user)
+      // let arts = user.related('arts')
+      // console.log(arts[0])
+      // res.json(arts[0])
+      // res.render('users/user',{
+      //   posts: account
+      // })
     }
   })
   .catch(err=>{
