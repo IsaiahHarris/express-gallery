@@ -49,13 +49,25 @@ width:310px;
 .author, .description{
   color:#282828;
   font-size:17px;
+  width:310px;
+  height: 100%;
 }
-
+.description{
+  text-overflow:ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  word-wrap:break-word;
+}
 .link{
   color:blue;
 }
 
-
+.active{
+  color:#282828;
+  font-size:17px;
+  width:310px;
+  overflow: visible;
+}
 
 .photo{
   width:245;

@@ -10,14 +10,16 @@
 </div>
 
 <div class="arts-entries-container">
-  {{#each arts}}
+  
   <div class="arts-entry">
+    {{#each arts}}
     <img class='photo' src="https://loremflickr.com/270/150/">
     <div class='arts-entry-details'>  
       <p class="author">Author: {{author}}</p>
       <a href="/arts/{{id}}">View Post</a>
-      <p class="description">Description {{description}}</p>
+      <p class="description">Description:{{description}}</p>
     </div>
+    {{/each}}
   </div>
-  {{/each}}
+  
 </div>
