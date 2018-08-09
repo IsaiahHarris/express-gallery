@@ -5,16 +5,16 @@
 </div>
 <div class="arts-home-second-header-container">
   <form action="/arts/new">
-    <input type="submit" value="add an artwork" class="add-artwork-button">
+    <input type="submit" value="Add An Artwork" class="add-artwork-button">
   </form>
 </div>
 
 <div class="arts-entries-container">
   {{#each arts}}
   <div class="arts-entry">
-    <img class='photo' src="https://loremflickr.com/270/150/art">
+    <img class='photo' src="https://loremflickr.com/270/150/">
     <div class='arts-entry-details'>  
-      <h5 class="author">Author: {{author}}</h5>
+      <p class="author">Author: {{author}}</p>
       <a href="/arts/{{id}}">View Post</a>
       <p class="description">Description {{description}}</p>
     </div>

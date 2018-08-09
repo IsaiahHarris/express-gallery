@@ -46,19 +46,18 @@ align-items: start;
 width:310px;
 }
 
-.author{
-  color:red;
+.author, .description{
+  color:#282828;
+  font-size:17px;
 }
 
 .link{
   color:blue;
 }
 
-.description{
 
-}
 
 .photo{
-  width:200;
-  height: 120;
+  width:245;
+  height: 135;
 }
