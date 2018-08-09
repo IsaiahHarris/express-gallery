@@ -5,16 +5,17 @@
   <img class='artwork-photo' src="https://loremflickr.com/310/215/art">
   <div class="artwork-details">
     <div class ="artwork-author">By: {{arts.author}}</div>
+     <a href="/users/{{arts.author_id}}">View Posts By This User</a>
     <a class = "artwork-link" href="/arts/{{id}}">http://localhost:8080/arts/{{arts.id}}</a>
     <div class = "artwork-description">{{arts.description}}</div>
   </div>
 </div>
 <div class="artwork-action-container">
   <form action="/arts/{{arts.id}}/edit" method="GET" enctype="application/x-www-form-urlencoded">
-    <input class="edit-item-button" type="submit" value="edit item">
+    <input class="edit-item-button" type="submit" value="Edit Item">
   </form>
   <form action="/arts/{{arts.id}}" method="POST" enctype="application/x-www-form-urlencoded">
     <input type="hidden" name="_method" value="DELETE">
-    <input class="delete-item-button" type="submit" value="delete item">
+    <input class="delete-item-button" type="submit" value="Delete Item">
   </form>
 </div>

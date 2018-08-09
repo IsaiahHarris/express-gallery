@@ -18,7 +18,7 @@
     {{#each arts}}
     <img class='photo' src="https://loremflickr.com/270/150/art">
     <div class='arts-entry-details'>  
-      <p class="author">Author: {{author}}</p>
+      <a href="/users/{{author_id}}">{{author}}</a>
       <a href="/arts/{{id}}">http://localhost:8080/arts/{{id}}</a>
       <p class="description">Description:{{description}}</p>
     </div>
