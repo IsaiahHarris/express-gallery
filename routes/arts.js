@@ -59,6 +59,7 @@ router.route('/:id')
         let artsArr = arts.map(element => {
           return element.attributes;
         })
+        console.log('ARTSARR[0]', artsArr[0])
         if (!arts) {
           return res.status(404).json({ "message": "artwork does not exist" })
         } else {
