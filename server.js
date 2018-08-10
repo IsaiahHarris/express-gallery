@@ -135,11 +135,11 @@ app.post('/register', (req, res) => {
   })
 })
 
-app.post('/login', (req, res, next) => {
+app.post('/login', helper.isAuthenticated, (req, res, next) => {
   req.body.username = req.body.username.toLowerCase();
   passport.authenticate('local', (err, user, info) => {
     if(user.deleted_at!==null){
-      res.render('login',{
+     return res.render('login',{
         message: 'Wrong username or password!'
       })
     }
