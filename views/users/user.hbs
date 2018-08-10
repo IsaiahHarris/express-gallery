@@ -4,8 +4,9 @@
 </form>
 
 {{#each posts}}
-<div>id: {{id}}</div>
-<div>posts: {{link}}</div>
-<div>description{{description}}</div>
+<div>author:{{author}}</div>
+<a class = "artwork-link" href="/arts/{{arts.id}}">http://localhost:8080/arts/{{id}}</a>
+<div class="image" style="background-image: url({{link}})"></div>
+<div>Description{{description}}</div>
 {{/each}}
 
