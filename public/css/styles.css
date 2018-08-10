@@ -46,6 +46,9 @@ body{
 .message{
   color:red;
 }
+.rmessage{
+  color:red;
+}
 .arts-home-second-header-container{
   display: flex;
   justify-content: center;

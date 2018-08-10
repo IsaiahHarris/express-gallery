@@ -91,7 +91,9 @@ passport.use(new LocalStrategy({
     })
 }))
 app.get('/register', (req, res) => {
-  res.render('gallery/register')
+  res.render('gallery/register',{
+    message: req.flash('err')
+  })
 })
 
 app.get('/login',(req, res) => {
@@ -109,6 +111,10 @@ app.post('/register', (req, res) => {
         if (err) {
           return res.status(500)
         } else {
+          if(req.body.username.length<1 || req.body.password<1 ){
+            req.flash('err', 'Registration requires a username and password!')
+            return res.redirect('/register')
+          }
           return new User({
             email: req.body.email,
             username: req.body.username,
@@ -134,14 +140,14 @@ app.post('/login', (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
     console.log(user, "USER")
     if (err) {
-      req.flash('error', `wrong username or password`);
+      req.flash('error', `Wrong username or password!`);
       return res.redirect('/login')
     } else if (!user) {
-        req.flash('error', `wrong username or password`);
+        req.flash('error', `Wrong username or password!`);
         return res.redirect('/login')
     } else if (req.body.username.length < 1 || req.body.password.length < 1) {
       console.log(req.body, "REQ BODY")
-      req.flash('error', `wrong username or password`);
+      req.flash('error', `Wrong username or password!`);
       return res.redirect('/login')
     }
     req.login(user, (err) => {
