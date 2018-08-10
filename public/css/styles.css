@@ -17,14 +17,14 @@ body, html{
 }
 .add-artwork-button{
   border: 0.5px outset grey;
-  background-color: lightcyan;
+  background-color: aqua;
   margin-right:3px;
   height: 26.7px;
   width: 150px;
 }
 .add-artwork-button:active{
   border: 0.5px inset grey;
-  background-color: lightblue;
+  background-color: rgb(5, 211, 211);
   margin-right:3px;
   height: 26.7px;
   width: 150px;
@@ -156,11 +156,11 @@ justify-content: center;
 }
 
 .edit-item-button{
-  background-color:lightcyan;
+  background-color:aqua;
 }
 
 .edit-item-button:active{
-  background-color: lightblue;
+  background-color:  rgb(5, 211, 211);
 }
 
 .delete-item-button{

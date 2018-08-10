@@ -1,13 +1,20 @@
 <div class="new-art-page-container">
   <div class="new-art-header">
-<div>Add An Artwork</div>
+    <div>Add An Artwork</div>
   </div>
 
+  <form class="new-form" enctype="application/x-www-form-urlencoded" method="POST" action="/arts">
+    <div class="new-art-form-container">
+      <input class="new-author" type="text" name="author" placeholder="Author">
+      <input class="new-link" type="text" name="link" placeholder="Link">
+      <input class="new-description" type="text" name="description" placeholder="Description">
+      <input class="new-submit" type="submit" value="POST">
+          <form action="/arts">
+  <input type="submit" class="go-back-home" value="Go Back To Arts">
+  </form>
+    </div>
 
-<form enctype="application/x-www-form-urlencoded" method="POST" action="/arts">
-<input type="text" name = "author" placeholder="author">
-<input type="text" name = "link" placeholder="link">
-<input type="text" name="description" placeholder="description">
-<input type="submit" value="submit">
-</form>
+  </form>
+  
+
 </div>
