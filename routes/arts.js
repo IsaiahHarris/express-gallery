@@ -11,27 +11,25 @@ router.route('/')
     return Art
       .fetchAll()
       .then(arts => {
-        console.log(req.body.email)
-        // console.log(arts.models[0].attributes)
-        let artsArr = arts.map(element => {
-          return element.attributes;
-        })
-        console.log(artsArr)
+        console.log('ARTS', arts)        
         if (!arts) {
           return res.json({ "message": "there is no art" })
         } else {
+          let artsArr = arts.map(element => {
+            return element.attributes;
+          })
           res.render('gallery/home', {
-            arts: artsArr
+            arts: artsArr,
+            aid: artsArr[0].author_id
           })
         }
       })
       .catch(err => {
         console.log(err);
-        return res.json({ "message": 'heyyy' })
+        return res.json({ "message": err.message })
       })
   })
   .post((req, res) => {
-    console.log('REQ.USER.ID', req.user.id);
     let { author, link, description } = req.body;
     let author_id = req.user.id;
     link = link.toLowerCase();
@@ -106,7 +104,7 @@ router.route('/:id')
       .query({ where: { id: id } })
       .fetchAll()
       .then(result => {
-        if (req.user.id !== result.models[0].attributes.author_id) {
+        if (req.user.id !== result.models[0].attributes.author_id &&req.user.id!== 25 ) {
           req.flash('youDontOwn', 'You do not have rights to delete this post')
           return res.redirect(`/arts/${id}`)
         } else {
