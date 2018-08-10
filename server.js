@@ -105,18 +105,7 @@ app.get('/login',(req, res) => {
 })
 
 app.post('/register', (req, res) => {
-  // return User
-  // .fetchAll()
-  // // .then(result=>{
-  // //   let resultArr = result.map(element => {
-  // //     return element.attributes;
-  // //   })
-  // //   if(req.body.email === resultArr[0].email){
-  // //     return res.redirect('/register')
-  // //   }
-  // //   return result;
-  // // })   
-  // .then(result=>{
+
     bcrypt.genSalt(saltedRounds, (err, salt) => {
       if (err) {
         return res.status(500)
@@ -150,9 +139,10 @@ app.post('/register', (req, res) => {
   })
   
 
-// })
 
-app.post('/login', helper.isAuthenticated, (req, res, next) => {
+
+app.post('/login', (req, res, next) => {
+  console.log('hello')
   req.body.username = req.body.username.toLowerCase();
   passport.authenticate('local', (err, user, info) => {
     if(user.deleted_at!==null){
