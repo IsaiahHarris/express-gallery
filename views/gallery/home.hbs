@@ -15,7 +15,7 @@
 <div class="arts-entries-container"> 
     {{#each arts}}
     <div class="arts-entry">
-    <img id='photo' src="https://loremflickr.com/270/150/architecture">
+    <div class="image" style="background-image: url({{link}})"></div>
     <div class='arts-entry-details'>  
       <a class = "author" href="/users/{{author_id}}">{{author}}</a>
       <a href="/arts/{{id}}">http://localhost:8080/arts/{{id}}</a>

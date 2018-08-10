@@ -32,7 +32,6 @@ router.route('/')
   .post((req, res) => {
     let { author, link, description } = req.body;
     let author_id = req.user.id;
-    link = link.toLowerCase();
     return new Art({ author_id, link, description, author })
       .save()
       .then(post => {

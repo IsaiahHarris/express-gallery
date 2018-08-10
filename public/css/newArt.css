@@ -19,13 +19,13 @@
   display: flex;
   flex-direction: column;
   width:100%;
-  height: 435px;
+  height: 500px;
   align-items:center;
   justify-content: center;
   
 }
 
-.new-author, .new-link, .new-description, .new-submit, .go-back-home{
+.new-author, .new-link, .new-description, .new-submit, .go-back-home, .link-to-photo{
   width: 60%;
   height: 33px;
   letter-spacing: 0.2px;
