@@ -31,24 +31,34 @@ router.route('/')
   })
   .post((req, res) => {
     let { author, link, description } = req.body;
+    link = link.replace(/\s/g, "");
     let author_id = req.user.id;
-    return new Art({ author_id, link, description, author })
+    if(!author || !link){
+      req.flash('linkmiss','Link or author missing!')
+      return res.redirect('/arts/new')
+    }else{
+      return new Art({ author_id, link, description, author })
       .save()
       .then(post => {
+        
         return res.redirect('/arts')
       })
       .catch(err => {
         return res.json({ "message": err.message })
       })
+    }
   })
 
 router.get('/new', (req, res) => {
-  res.render('gallery/new')
+  return res.render('gallery/new',{
+    message: req.flash('linkmiss')
+  })
 })
 
 router.route('/:id')
   .get((req, res) => {
     let id = req.params.id;
+    
     return Art
       .query({ where: { id: id } })
       .fetchAll()
