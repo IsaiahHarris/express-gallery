@@ -73,9 +73,10 @@ router.route('/:id')
   .put((req, res) => {  
     let id = req.params.id;
     let { author_id, link, description } = req.body
-    return new Art({ id: id })
+      return new Art({ id: id })
       .save({ author_id, link, description })
       .then(arts => {
+        console.log(arts)
         if (!arts) {
           res.status(404).json({ "message": "artwork does not exist" })
         } else {
@@ -85,17 +86,28 @@ router.route('/:id')
       .catch(err => {
         return res.json({ "message": err.message })
       })
+    
+
   })
   .delete((req, res) => {
     let id = req.params.id;
-    return new Art({ id: id })
-      .destroy()
-      .then(result => {
-        res.redirect('/arts')
-      })
-      .catch(err => {
-        res.send('there has been an error')
-      })
+    return Art
+    .query({where:{id:id}})
+    .fetchAll()
+    .then(result=>{
+      if(req.user.id !== result.models[0].attributes.author_id){
+        return res.redirect(`/arts${id}`)
+      }else {
+        return new Art({id:id})
+        .destroy()
+        .then(result=>{
+          return res.redirect('/arts')
+        })
+        .catch(err=>{
+          return res.json({"message": err.message})
+        })
+      }
+    })
   })
 
 router.get('/:id/edit', (req, res) => {
