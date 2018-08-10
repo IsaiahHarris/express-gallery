@@ -70,7 +70,7 @@ router.route('/:id')
         res.json({ "message": err.message })
       })
   })
-  .put((req, res) => {
+  .put((req, res) => {  
     let id = req.params.id;
     let { author_id, link, description } = req.body
     return new Art({ id: id })

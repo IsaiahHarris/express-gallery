@@ -9,8 +9,6 @@ function isAuthenticated(req, res, next) {
 
 
 function isAdmin(req,res,next){
-  console.log('isAdmin')
-  console.log(req.user.id)
   if(req.user.id === 20){
     next()
   }else {

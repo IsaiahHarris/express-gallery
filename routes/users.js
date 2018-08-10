@@ -2,10 +2,12 @@ const express = require('express')
 const router = express.Router();
 const User = require('../models/User')
 const helper = require('./helper')
+const Art = require('../models/Art')
 router.use(helper.isAuthenticated)
 
 router.get('/', (req,res)=>{
   return User
+  .query({where: {deleted_at: null}})
   .fetchAll()
   .then(users=>{
     let usersArr = users.map(element=>{
@@ -46,14 +48,12 @@ router.get('/:id', (req,res)=>{
 
 router.delete('/:id', helper.isAdmin, (req,res)=>{
   let id = req.params.id;
+  const deleted_at = null
   return new User({ id: id })
-    .destroy()
-    .then(result => {
-      console.log('delete')
+    .save({deleted_at})  
+    .then(result=>{
+      console.log('deleted')
       res.redirect('/users')
-    })
-    .catch(err => {
-      res.send('there has been an error')
     })
 })
    
