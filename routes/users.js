@@ -49,7 +49,7 @@ router.get('/:id', (req,res)=>{
 
 router.delete('/:id', helper.isAdmin, (req,res)=>{
   let id = req.params.id;
-  const deleted_at = null
+  const deleted_at = helper.getDate()
   return new User({ id: id })
     .save({deleted_at})  
     .then(result=>{

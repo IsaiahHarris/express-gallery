@@ -40,11 +40,12 @@ app.use(passport.session());
 
 
 passport.serializeUser((user, done) => {
-
-  return done(null, {
-    id: user.id,
-    name: user.name
-  })
+  if(user.deleted_at === null){
+    return done(null, {
+      id: user.id,
+      name: user.name
+    })
+  }
 })
 
 passport.deserializeUser((user, done) => {
@@ -135,10 +136,15 @@ app.post('/register', (req, res) => {
 })
 
 app.post('/login', (req, res, next) => {
-  console.log("THIS IS REQ", req)
+  // console.log("THIS IS REQ", req)
+  
   req.body.username = req.body.username.toLowerCase();
   passport.authenticate('local', (err, user, info) => {
-    console.log(user, "USER")
+    if(user.deleted_at!==null){
+      res.render('login',{
+        message: 'Wrong username or password!'
+      })
+    }
     if (err) {
       req.flash('error', `Wrong username or password!`);
       return res.redirect('/login')
@@ -146,7 +152,6 @@ app.post('/login', (req, res, next) => {
         req.flash('error', `Wrong username or password!`);
         return res.redirect('/login')
     } else if (req.body.username.length < 1 || req.body.password.length < 1) {
-      console.log(req.body, "REQ BODY")
       req.flash('error', `Wrong username or password!`);
       return res.redirect('/login')
     }
