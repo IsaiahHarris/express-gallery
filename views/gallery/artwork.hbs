@@ -1,17 +1,21 @@
+<div class="artwork-main-container">
 <div class="artwork-header">
-  <h1>_ARCHITEKT</h1>
+  <div class ="artwork-title">_ARCHITEKT</div>
+  
 </div>
 <div class="artwork-container">
   <img class='artwork-photo' src="https://loremflickr.com/310/215/architecture">
   <div class="artwork-details">
     <div class ="artwork-author">By: {{arts.author}}</div>
-     <a href="/users/{{arts.author_id}}">View Posts By This User</a>
+     <a href="/users/{{arts.author_id}}">Enjoy Artwork By {{arts.author}}</a>
     <a class = "artwork-link" href="/arts/{{id}}">http://localhost:8080/arts/{{arts.id}}</a>
     <div class = "artwork-description">{{arts.description}}</div>
   </div>
    <div class="you-dont-own">{{err}}</div>
 </div>
-
+<form class = "back-to-gallery-form"action="/arts">
+  <input class = "back-to-gallery" type="submit" value="Back to Gallery" >
+  </form>
 <div class="artwork-action-container">
  
   <form action="/arts/{{arts.id}}/edit" method="GET" enctype="application/x-www-form-urlencoded">
@@ -21,4 +25,5 @@
     <input type="hidden" name="_method" value="DELETE">
     <input class="delete-item-button" type="submit" value="Delete Item">
   </form>
+</div>
 </div>
