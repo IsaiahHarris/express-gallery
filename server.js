@@ -11,6 +11,7 @@ const bcrypt = require('bcrypt');
 const routes = require('./routes');
 const User = require('./models/User');
 const helper = require('./routes/helper');
+const flash = require('connect-flash')
 const saltedRounds = 12;
 const users = require('./routes/users')
 const PORT = process.env.PORT || 8080
@@ -32,8 +33,11 @@ app.use(session({
   saveUninitialized: true
 }))
 
+
+app.use(flash())
 app.use(passport.initialize());
 app.use(passport.session());
+
 
 passport.serializeUser((user, done) => {
 
@@ -90,8 +94,10 @@ app.get('/register', (req, res) => {
   res.render('gallery/register')
 })
 
-app.get('/login', helper.isAuthenticated,(req, res) => {
-  res.render('gallery/login')
+app.get('/login',(req, res) => {
+  res.render('login',{
+    message: req.flash('error')
+  })
 })
 
 app.post('/register', (req, res) => {
@@ -122,10 +128,28 @@ app.post('/register', (req, res) => {
   })
 })
 
-app.post('/login', passport.authenticate('local', {
-  successRedirect: '/arts',
-  failureRedirect: '/login'
-}))
+app.post('/login', (req, res, next) => {
+  console.log("THIS IS REQ", req)
+  req.body.username = req.body.username.toLowerCase();
+  passport.authenticate('local', (err, user, info) => {
+    console.log(user, "USER")
+    if (err) {
+      req.flash('error', `wrong username or password`);
+      return res.redirect('/login')
+    } else if (!user) {
+        req.flash('error', `wrong username or password`);
+        return res.redirect('/login')
+    } else if (req.body.username.length < 1 || req.body.password.length < 1) {
+      console.log(req.body, "REQ BODY")
+      req.flash('error', `wrong username or password`);
+      return res.redirect('/login')
+    }
+    req.login(user, (err) => {
+      if (err) { return next(err); }
+      return res.redirect('/arts');
+    });
+  })(req, res, next);
+});
 
 app.get('/logout', (req, res) => {
   req.logout();
@@ -141,7 +165,6 @@ app.engine('.hbs', exphbs({
 }))
 
 app.set('view engine', '.hbs');
-
 app.use('/', routes);
 app.use('/users', users)
 

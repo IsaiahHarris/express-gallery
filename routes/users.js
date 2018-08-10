@@ -2,7 +2,6 @@ const express = require('express')
 const router = express.Router();
 const User = require('../models/User')
 const helper = require('./helper')
-
 router.use(helper.isAuthenticated)
 
 router.get('/', (req,res)=>{

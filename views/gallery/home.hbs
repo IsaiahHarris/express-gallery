@@ -8,21 +8,19 @@
     <input type="submit" value="Add An Artwork" class="add-artwork-button">
   </form>
   <form class="logout-form" action="/logout">
-  <input type="submit" value="logout" class = "logout-button">
+  <input type="submit" value="Logout" class = "logout-button">
   </form>
 </div>
 
-<div class="arts-entries-container">
-  
-  <div class="arts-entry">
+<div class="arts-entries-container"> 
     {{#each arts}}
-    <img class='photo' src="https://loremflickr.com/270/150/architecture">
+    <div class="arts-entry">
+    <img id='photo' src="https://loremflickr.com/270/150/architecture">
     <div class='arts-entry-details'>  
       <a class = "author" href="/users/{{author_id}}">{{author}}</a>
       <a href="/arts/{{id}}">http://localhost:8080/arts/{{id}}</a>
       <p class="description">Description:{{description}}</p>
     </div>
-    {{/each}}
-  </div>
-  
+    </div>
+    {{/each}}  
 </div>
