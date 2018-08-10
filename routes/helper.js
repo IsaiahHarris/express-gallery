@@ -9,7 +9,7 @@ function isAuthenticated(req, res, next) {
 
 
 function isAdmin(req,res,next){
-  if(req.user.id === 20){
+  if(req.user.id === 25){
     next()
   }else {
     res.redirect('/users')

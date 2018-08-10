@@ -30,6 +30,7 @@ router.get('/', (req,res)=>{
 router.get('/:id', (req,res)=>{
   let id = req.params.id;
   return new User({id:id})
+  .query({where:{deleted_at: null}})
   .fetch({
     withRelated: ['arts']
   })
