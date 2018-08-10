@@ -11,6 +11,7 @@ router.route('/')
     return Art
       .fetchAll()
       .then(arts => {
+        console.log(req.body.email)
         // console.log(arts.models[0].attributes)
         let artsArr = arts.map(element => {
           return element.attributes;

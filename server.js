@@ -93,7 +93,8 @@ passport.use(new LocalStrategy({
 }))
 app.get('/register', (req, res) => {
   res.render('gallery/register',{
-    message: req.flash('err')
+    message: req.flash('err'),
+    emailMessage: req.flash('emailExists')
   })
 })
 
@@ -104,36 +105,52 @@ app.get('/login',(req, res) => {
 })
 
 app.post('/register', (req, res) => {
-  bcrypt.genSalt(saltedRounds, (err, salt) => {
-    if (err) {
-      return res.status(500)
-    } else {
-      bcrypt.hash(req.body.password, salt, (err, hashedPassword) => {
-        if (err) {
-          return res.status(500)
-        } else {
-          if(req.body.username.length<1 || req.body.password<1 ){
-            req.flash('err', 'Registration requires a username and password!')
-            return res.redirect('/register')
+  // return User
+  // .fetchAll()
+  // // .then(result=>{
+  // //   let resultArr = result.map(element => {
+  // //     return element.attributes;
+  // //   })
+  // //   if(req.body.email === resultArr[0].email){
+  // //     return res.redirect('/register')
+  // //   }
+  // //   return result;
+  // // })   
+  // .then(result=>{
+    bcrypt.genSalt(saltedRounds, (err, salt) => {
+      if (err) {
+        return res.status(500)
+      } else {
+        bcrypt.hash(req.body.password, salt, (err, hashedPassword) => {
+          if (err) {
+            return res.status(500)
+          } else {
+            if(req.body.username.length<1 || req.body.password<1){
+              req.flash('err', 'Registration requires a username and password!')
+              return res.redirect('/register')
+            }
+            return new User({
+              email: req.body.email,
+              username: req.body.username,
+              password:hashedPassword
+            })
+              .save()
+              .then(user => {
+                res.redirect('/arts')
+              })
+              .catch(err => {
+                console.log(err);
+                req.flash('emailExists', 'Email already registered with Architekt')
+                return res.redirect('/register')
+              })
           }
-          return new User({
-            email: req.body.email,
-            username: req.body.username,
-            password:hashedPassword
-          })
-            .save()
-            .then(user => {
-              res.redirect('/arts')
-            })
-            .catch(err => {
-              console.log(err);
-              return res.send('could not register you')
-            })
-        }
-      })
-    }
+        })
+      }
+    })
   })
-})
+  
+
+// })
 
 app.post('/login', helper.isAuthenticated, (req, res, next) => {
   req.body.username = req.body.username.toLowerCase();
