@@ -7,15 +7,17 @@
     <div class="new-art-form-container">
       <div class="message">{{message}}</div>
       <input class="new-author" type="text" name="author" placeholder="Author">
-      <input type="text" name="link" class = "link-to-photo" placeholder="link to photo">
+      <input type="text" name="link" class="link-to-photo" placeholder="link to photo">
       <input class="new-description" type="text" name="description" placeholder="Description">
       <input class="new-submit" type="submit" value="POST">
-      <form action="/arts">
-        <input type="submit" class="go-back-home" value="Go Back To Arts">
-      </form>
+
     </div>
 
   </form>
-
+<div class="back-container">
+  <form class = "back-form"action="/arts">
+    <input type="submit" class="go-back-home" value="Go Back To Arts">
+  </form>
+</div>
 
 </div>
