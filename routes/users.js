@@ -13,11 +13,13 @@ router.get('/', (req,res)=>{
     let usersArr = users.map(element=>{
       return element.attributes;
     })
+    console.log('USERS.ID', usersArr[0].id)
     if(!users){
       return res.json({"message":"there is no users"})
     }else {
       res.render('users/home',{
-        users: usersArr
+        users: usersArr,
+        id: usersArr[0].id
       })
     }
   })
@@ -35,11 +37,10 @@ router.get('/:id', (req,res)=>{
     withRelated: ['arts']
   })
   .then(user=>{
-    
      let arts = user.related('arts').toJSON()
       res.render('users/user',{
         posts: arts,
-        id: user.attributes.id
+        id: user.attributes.id,
       })
   })
   .catch(err=>{
