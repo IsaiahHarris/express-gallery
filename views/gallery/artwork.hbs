@@ -9,8 +9,11 @@
     <a class = "artwork-link" href="/arts/{{id}}">http://localhost:8080/arts/{{arts.id}}</a>
     <div class = "artwork-description">{{arts.description}}</div>
   </div>
+   <div class="you-dont-own">{{err}}</div>
 </div>
+
 <div class="artwork-action-container">
+ 
   <form action="/arts/{{arts.id}}/edit" method="GET" enctype="application/x-www-form-urlencoded">
     <input class="edit-item-button" type="submit" value="Edit Item">
   </form>

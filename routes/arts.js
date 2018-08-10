@@ -30,7 +30,7 @@ router.route('/')
       })
   })
   .post((req, res) => {
-    console.log('REQ.USER.ID',req.user.id);
+    console.log('REQ.USER.ID', req.user.id);
     let { author, link, description } = req.body;
     let author_id = req.user.id;
     link = link.toLowerCase();
@@ -62,7 +62,8 @@ router.route('/:id')
           return res.status(404).json({ "message": "artwork does not exist" })
         } else {
           res.render('gallery/artwork', {
-            arts: artsArr[0]
+            arts: artsArr[0],
+            err: req.flash('youDontOwn')
           })
         }
       })
@@ -70,63 +71,77 @@ router.route('/:id')
         res.json({ "message": err.message })
       })
   })
-  .put((req, res) => {  
+  .put((req, res) => {
     let id = req.params.id;
     let { author_id, link, description } = req.body
-      return new Art({ id: id })
-      .save({ author_id, link, description })
-      .then(arts => {
-        console.log(arts)
-        if (!arts) {
-          res.status(404).json({ "message": "artwork does not exist" })
+    return Art
+      .query({ where: { id: id } })
+      .fetchAll()
+      .then(result => {
+        if (req.user.id !== result.models[0].attributes.author_id) {
+          req.flash('youDontOwn', 'You do not have rights to edit this post')
+          return res.redirect(`/arts/${id}`)
         } else {
-          res.redirect(`/arts/${id}`)
+          return new Art({ id: id })
+            .save({ author_id, link, description })
+            .then(arts => {
+              console.log(arts)
+              if (!arts) {
+                res.status(404).json({ "message": "artwork does not exist" })
+              } else {
+                res.redirect(`/arts/${id}`)
+              }
+            })
+            .catch(err => {
+              return res.json({ "message": err.message })
+            })
         }
       })
-      .catch(err => {
-        return res.json({ "message": err.message })
-      })
-    
-
   })
   .delete((req, res) => {
     let id = req.params.id;
     return Art
-    .query({where:{id:id}})
-    .fetchAll()
-    .then(result=>{
-      if(req.user.id !== result.models[0].attributes.author_id){
-        return res.redirect(`/arts${id}`)
-      }else {
-        return new Art({id:id})
-        .destroy()
-        .then(result=>{
-          return res.redirect('/arts')
-        })
-        .catch(err=>{
-          return res.json({"message": err.message})
-        })
-      }
-    })
+      .query({ where: { id: id } })
+      .fetchAll()
+      .then(result => {
+        if (req.user.id !== result.models[0].attributes.author_id) {
+          req.flash('youDontOwn', 'You do not have rights to delete this post')
+          return res.redirect(`/arts/${id}`)
+        } else {
+          return new Art({ id: id })
+            .destroy()
+            .then(result => {
+              return res.redirect('/arts')
+            })
+            .catch(err => {
+              return res.json({ "message": err.message })
+            })
+        }
+      })
   })
 
 router.get('/:id/edit', (req, res) => {
   const id = req.params.id;
+
   return Art
     .query({ where: { id: id } })
     .fetchAll()
     .then(arts => {
-
-      let artsArr = arts.map(element => {
-        return element.attributes;
-      })
-      // console.log(artsArr[0])
-      if (!arts) {
-        res.status(404).json({ "message": "artwork not found" })
-      } else {
-        res.render('gallery/edit', {
-          arts: artsArr[0]
+      if (req.user.id === arts.models[0].attributes.author_id) {
+        let artsArr = arts.map(element => {
+          return element.attributes;
         })
+        // console.log(artsArr[0])
+        if (!arts) {
+          res.status(404).json({ "message": "artwork not found" })
+        } else {
+          res.render('gallery/edit', {
+            arts: artsArr[0]
+          })
+        }
+      }else {
+        req.flash('youDontOwn', 'You do not have rights to edit this post')
+        res.redirect(`/arts/${id}`)
       }
     })
     .catch(err => {

@@ -10,6 +10,9 @@ body{
   width:100%;
 }
 
+.you-dont-own{
+  color:red;
+}
 .add-artwork-button{
   border: 0.5px outset grey;
   background-color: lightcyan;
