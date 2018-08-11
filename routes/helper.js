@@ -17,6 +17,7 @@ function getDate(){
     second = "" + now.getSeconds(); if (second.length == 1) { second = "0" + second; }
     return year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second;
 }
+
 function isAdmin(req,res,next){
   if(req.user.id === 25){
     next()

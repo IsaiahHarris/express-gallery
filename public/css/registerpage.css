@@ -40,3 +40,39 @@
 color:black;
 background-color: #00D86F;
 }
+
+@media (min-width:768px){
+  .register-email, .register-username, .register-password, .register-your-account{
+    width:66%;
+    height: 45px;
+    background-color: #191919;
+    color:white;
+  }
+  .register-your-account{
+    background-color: #00D86F;
+    color:#191919;
+    font-size:22px;
+  }
+ 
+    .register-form-container{
+      display: flex;
+      flex-direction:column;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      height: 500px;
+      width:100%;
+      margin-bottom: 50px;
+  }
+  .register-title{   
+      text-align:center;
+      font-size:40px;
+  }
+  .register-page-header{
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    height:150px;
+    width:100%;
+  }
+}

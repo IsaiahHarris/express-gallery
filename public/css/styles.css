@@ -69,7 +69,6 @@ align-items:center;
 justify-content: center;
 width:100%;
 margin-top:26px;
-
 }
 
 .arts-entry{
@@ -270,3 +269,110 @@ justify-content: center;
   background-size:100% 100%;
 }
 
+@media (min-width: 768px){
+  .username, .password, .submit{
+    width:66%;
+    height: 40px;
+    background-color: whitesmoke;
+    letter-spacing: 0.5px;
+  }
+  .login-page-button{
+    background-color:#00D86F;
+    width:66%;
+    height: 40px;
+  }
+  .login-page-button:active{
+    background-color:rgba(0, 216, 112, 0.863);
+    width:66%;
+    height:40px;
+  }
+  .register-choice{
+    margin-top:10px;
+    background-color:#00D86F;
+    width:66%;
+    height: 40px;
+  }
+  .register-choice:active{
+    margin-top:10px;
+    background-color:rgba(0, 216, 112, 0.863);
+    width:66%;
+    height: 40px;
+  }
+  .or{
+    font-size:23px;
+    color:white;
+  }
+  .arts-entries-container{
+    display: flex;
+    flex-direction:row;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content: space-evenly;
+    width:100%;
+    margin-top:26px;
+  }
+  .arts-entry{
+    display: flex;
+    flex-direction:column;
+    align-items:center;
+    margin-top:7px;
+  }
+  
+  .image{
+    width:400px;
+    height: 300px;
+  }
+  
+  .arts-entry-details{
+  display: flex;
+  flex-direction: column;
+  align-items:start;
+  width:410px;
+  }
+  .arts-home-header-container{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    height: 150px;
+    width:100%;
+    font-size:56px;
+  }
+  .arts-home-header-title{
+    font-size: 150%;
+    color: #282828
+  }
+  .add-artwork-button{
+    border: 0.5px outset grey;
+    background-color: aqua;
+    margin-right:10px;
+    height:45px;
+    width: 200px;
+    font-size:25px;
+  }
+  .add-artwork-button:active{
+    border: 0.5px inset grey;
+    background-color: rgb(5, 211, 211);
+    margin-right:10px;
+    height: 45px;
+    width: 200px;
+    font-size:25px;
+  }
+  
+  .logout-button{
+    border: 0.5px outset grey;
+    background-color: #ff6666;
+    width: 95px;
+    height: 45px;
+    margin-left:10px;
+    font-size:25px;
+  }
+  
+  .logout-button:active{
+    border: 0.5px inset grey;
+    background-color: #ff4c4c;
+    width: 95px;
+    height: 45px;
+    margin-left:10px;
+    font-size:25px;
+  }
+}
