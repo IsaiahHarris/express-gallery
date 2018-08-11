@@ -9,14 +9,22 @@ router.use(helper.isAuthenticated)
 router.route('/')
   .get((req, res) => {
     return Art
-      .fetchAll()
+      .fetchAll({
+        withRelated: ['author']
+      })
       .then(arts => {
+      let userObj = arts.toJSON()
+      let userB = userObj[0].author.username
         if (!arts) {
           return res.json({ "message": "there is no art" })
         } else {
           let artsArr = arts.map(element => {
+            console.log('ELEMENT',element);
+            element.attributes.username = userB
             return element.attributes;
           })
+
+          console.log("ARTSARRR",artsArr)
           res.render('gallery/home', {
             arts: artsArr
           })
@@ -30,11 +38,13 @@ router.route('/')
     let { author, link, description } = req.body;
     link = link.replace(/\s/g, "");
     let author_id = req.user.id;
+    let username = req.user.username;
+    console.log('THIS IS USERNAME',username);
     if (!author || !link) {
       req.flash('linkmiss', 'Link or author missing!')
       return res.redirect('/arts/new')
     } else {
-      return new Art({ author_id, link, description, author })
+      return new Art({ author_id, link, description})
         .save()
         .then(post => {
           return res.redirect('/arts')
@@ -56,8 +66,12 @@ router.route('/:id')
     let id = req.params.id;
     return Art
       .query({ where: { id: id } })
-      .fetchAll()
+      .fetchAll({
+        withRelated: ['author']
+      })
       .then(arts => {
+        let artsInfo = arts.toJSON();
+        let user = arts.related('users').toJSON()
         let artsArr = arts.map(element => {
           return element.attributes;
         })
