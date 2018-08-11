@@ -1,12 +1,21 @@
-<form action="/users/{{id}}" method="POST" enctype="application/x-www-form-urlencoded">
-<input type="hidden" name="_method" value="DELETE">
-<input type="submit" value="delete user(admin only)">
+<div class="user-profile-container">
+<div class="user-header">
+<div class="user-username">{{u.username}}'s profile</div>
+</div>
+<div class="user-posts-container">
+  {{#each posts}}
+  <div class="user-post-entry">
+  <div class="image" style="background-image: url({{link}})"></div>
+  <a class="artwork-link" href="/arts/{{id}}">http://localhost:8080/arts/{{id}}</a>
+  <div>Description: {{description}}</div>
+  </div>
+  {{/each}}
+</div>
+</div>
+</div>
+<div class="delete-user-container">
+<form action="/users/{{id}}" method="POST" class="delete-user-form" enctype="application/x-www-form-urlencoded">
+  <input type="hidden" name="_method" value="DELETE">
+  <input class="delete-user" type="submit" value="delete user(admin only)">
 </form>
-
-{{#each posts}}
-<div>author:{{author}}</div>
-<a class = "artwork-link" href="/arts/{{arts.id}}">http://localhost:8080/arts/{{id}}</a>
-<div class="image" style="background-image: url({{link}})"></div>
-<div>Description{{description}}</div>
-{{/each}}
-
+</div>
