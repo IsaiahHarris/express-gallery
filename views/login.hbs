@@ -1,0 +1,23 @@
+<div class="login-page-container">
+
+
+<div class="login-page-header">
+<div class = "login-message" >Login, or create an Architekt account.</div>
+</div>
+
+<form action="/login" method="POST">
+<div class = "login-form-container">
+  <div class="login-title">Login</div>
+  <input class = "username" type="text" name="username" placeholder="Username">
+  <input class = "password" type="text" name="password" placeholder="Password">
+  <div class ="message">{{message}}</div>
+  <input class = "login-page-button" type="submit" value="Login">
+  <div class="or">Or...</div>
+  </div>
+</form>
+<form action="/register">
+<div class="register-choice-container">
+<input class = "register-choice" type="submit" value="Register Here">
+</div>
+</form>
+</div>

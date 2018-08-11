@@ -11,41 +11,44 @@ router.route('/')
     return Art
       .fetchAll()
       .then(arts => {
-        // console.log(arts.models[0].attributes)
-        let artsArr = arts.map(element => {
-          return element.attributes;
-        })
-        console.log(artsArr)
         if (!arts) {
           return res.json({ "message": "there is no art" })
         } else {
+          let artsArr = arts.map(element => {
+            return element.attributes;
+          })
           res.render('gallery/home', {
             arts: artsArr
           })
         }
       })
       .catch(err => {
-        console.log(err);
-        return res.json({ "message": 'heyyy' })
-      })
-  })
-  .post((req, res) => {
-    console.log('REQ.USER.ID',req.user.id);
-    let { author, link, description } = req.body;
-    let author_id = req.user.id;
-    link = link.toLowerCase();
-    return new Art({ author_id, link, description, author })
-      .save()
-      .then(post => {
-        return res.redirect('/arts')
-      })
-      .catch(err => {
         return res.json({ "message": err.message })
       })
   })
+  .post((req, res) => {
+    let { author, link, description } = req.body;
+    link = link.replace(/\s/g, "");
+    let author_id = req.user.id;
+    if (!author || !link) {
+      req.flash('linkmiss', 'Link or author missing!')
+      return res.redirect('/arts/new')
+    } else {
+      return new Art({ author_id, link, description, author })
+        .save()
+        .then(post => {
+          return res.redirect('/arts')
+        })
+        .catch(err => {
+          return res.json({ "message": err.message })
+        })
+    }
+  })
 
 router.get('/new', (req, res) => {
-  res.render('gallery/new')
+  return res.render('gallery/new', {
+    message: req.flash('linkmiss')
+  })
 })
 
 router.route('/:id')
@@ -62,7 +65,8 @@ router.route('/:id')
           return res.status(404).json({ "message": "artwork does not exist" })
         } else {
           res.render('gallery/artwork', {
-            arts: artsArr[0]
+            arts: artsArr[0],
+            err: req.flash('youDontOwn')
           })
         }
       })
@@ -73,10 +77,20 @@ router.route('/:id')
   .put((req, res) => {
     let id = req.params.id;
     let { author_id, link, description } = req.body
-    return new Art({ id: id })
-      .save({ author_id, link, description })
-      .then(arts => {
-        if (!arts) {
+    return Art
+      .query({ where: { id: id } })
+      .fetchAll()
+      .then(result => {
+        if (req.user.id !== result.models[0].attributes.author_id && req.user.id !== 25) {
+          req.flash('youDontOwn', 'You do not have rights to edit this post')
+          return res.redirect(`/arts/${id}`)
+        } else {
+          return new Art({ id: id })
+            .save({ author_id, link, description })
+        }
+      })
+      .then(art => {
+        if (!art) {
           res.status(404).json({ "message": "artwork does not exist" })
         } else {
           res.redirect(`/arts/${id}`)
@@ -85,16 +99,28 @@ router.route('/:id')
       .catch(err => {
         return res.json({ "message": err.message })
       })
+
+
   })
   .delete((req, res) => {
     let id = req.params.id;
-    return new Art({ id: id })
-      .destroy()
+    return Art
+      .query({ where: { id: id } })
+      .fetchAll()
       .then(result => {
-        res.redirect('/arts')
-      })
-      .catch(err => {
-        res.send('there has been an error')
+        if (req.user.id !== result.models[0].attributes.author_id && req.user.id !== 25) {
+          req.flash('youDontOwn', 'You do not have rights to delete this post')
+          return res.redirect(`/arts/${id}`)
+        } else {
+          return new Art({ id: id })
+            .destroy()
+            .then(result => {
+              return res.redirect('/arts')
+            })
+            .catch(err => {
+              return res.json({ "message": err.message })
+            })
+        }
       })
   })
 
@@ -104,17 +130,20 @@ router.get('/:id/edit', (req, res) => {
     .query({ where: { id: id } })
     .fetchAll()
     .then(arts => {
-
-      let artsArr = arts.map(element => {
-        return element.attributes;
-      })
-      // console.log(artsArr[0])
-      if (!arts) {
-        res.status(404).json({ "message": "artwork not found" })
-      } else {
-        res.render('gallery/edit', {
-          arts: artsArr[0]
+      if (req.user.id === arts.models[0].attributes.author_id) {
+        let artsArr = arts.map(element => {
+          return element.attributes;
         })
+        if (!arts) {
+          res.status(404).json({ "message": "artwork not found" })
+        } else {
+          res.render('gallery/edit', {
+            arts: artsArr[0]
+          })
+        }
+      } else {
+        req.flash('youDontOwn', 'You do not have rights to edit this post')
+        res.redirect(`/arts/${id}`)
       }
     })
     .catch(err => {

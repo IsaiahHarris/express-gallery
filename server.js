@@ -11,9 +11,11 @@ const bcrypt = require('bcrypt');
 const routes = require('./routes');
 const User = require('./models/User');
 const helper = require('./routes/helper');
+const flash = require('connect-flash')
 const saltedRounds = 12;
 const users = require('./routes/users')
 const PORT = process.env.PORT || 8080
+
 app.use(express.static('./public'))
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json())
@@ -32,19 +34,24 @@ app.use(session({
   saveUninitialized: true
 }))
 
+
+app.use(flash())
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.serializeUser((user, done) => {
 
-  return done(null, {
-    id: user.id,
-    name: user.name
-  })
+passport.serializeUser((user, done) => {
+  if (user.deleted_at === null) {
+    return done(null, {
+      id: user.id,
+      name: user.name
+    })
+  }
 })
 
 passport.deserializeUser((user, done) => {
-  new User({ id: user.id }).fetch()
+  new User({ id: user.id })
+    .fetch()
     .then(user => {
       if (!user) {
         return done(null, false)
@@ -87,14 +94,20 @@ passport.use(new LocalStrategy({
     })
 }))
 app.get('/register', (req, res) => {
-  res.render('gallery/register')
+  res.render('gallery/register', {
+    message: req.flash('err'),
+    emailMessage: req.flash('emailExists')
+  })
 })
 
 app.get('/login', (req, res) => {
-  res.render('gallery/login')
+  res.render('login', {
+    message: req.flash('error')
+  })
 })
 
 app.post('/register', (req, res) => {
+
   bcrypt.genSalt(saltedRounds, (err, salt) => {
     if (err) {
       return res.status(500)
@@ -103,18 +116,24 @@ app.post('/register', (req, res) => {
         if (err) {
           return res.status(500)
         } else {
+          if (req.body.username.length < 1 || req.body.password < 1) {
+            req.flash('err', 'Registration requires a username and password!')
+            return res.redirect('/register')
+          }
           return new User({
             email: req.body.email,
             username: req.body.username,
-            password:hashedPassword
+            password: hashedPassword
           })
             .save()
-            .then(user => {
+            .then(() => {
               res.redirect('/arts')
             })
             .catch(err => {
-              console.log(err);
-              return res.send('could not register you')
+              console.log(err.code);
+              //err code unique const
+              req.flash('emailExists', 'Email already registered with Architekt')
+              return res.redirect('/register')
             })
         }
       })
@@ -122,10 +141,35 @@ app.post('/register', (req, res) => {
   })
 })
 
-app.post('/login', passport.authenticate('local', {
-  successRedirect: '/arts',
-  failureRedirect: '/register'
-}))
+
+
+
+app.post('/login', (req, res, next) => {
+  req.body.username = req.body.username.toLowerCase();
+  passport.authenticate('local', (err, user, info) => {
+    if (user.deleted_at !== null) {
+      return res.render('login', {
+        message: req.flash('error')
+      })
+    }
+    if (err) {
+      req.flash('error', `Wrong username or password!`);
+      return res.redirect('/login')
+    } else if (!user) {
+      req.flash('error', `Wrong username or password!`);
+      return res.redirect('/login')
+    } else if (req.body.username.length < 1 || req.body.password.length < 1) {
+      req.flash('error', `Wrong username or password!`);
+      return res.redirect('/login')
+    }
+    req.login(user, (err) => {
+      if (err) {
+        return next(err);
+      }
+      return res.redirect('/arts');
+    });
+  })(req, res, next);
+});
 
 app.get('/logout', (req, res) => {
   req.logout();
@@ -141,7 +185,6 @@ app.engine('.hbs', exphbs({
 }))
 
 app.set('view engine', '.hbs');
-
 app.use('/', routes);
 app.use('/users', users)
 
