@@ -14,15 +14,10 @@ router.route('/')
       })
       .then(arts => {
         let userObj = arts.toJSON()
-        console.log("userObj",userObj)
-        let userB = userObj[0].author.username
-        console.log('UNDEFINED',userB)
         if (!arts) {
           return res.json({ "message": "there is no art" })
         } else {
-          let artsArr = arts.map(element => {
-            
-            
+          let artsArr = arts.map(element => {           
             element.attributes.username = element.relations.author.attributes.username
             return element.attributes;
           })
