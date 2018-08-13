@@ -93,6 +93,10 @@ passport.use(new LocalStrategy({
       return done(err);
     })
 }))
+
+app.get('/', (req,res)=>{
+  res.render('login')
+})
 app.get('/register', (req, res) => {
   res.render('gallery/register', {
     message: req.flash('err'),
