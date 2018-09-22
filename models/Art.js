@@ -1,10 +1,14 @@
 const bookshelf = require('./bookshelf');
 
-class Art extends bookshelf.Model{
-  get tableName() { return 'arts' };
-  get hasTimestamps() { return true };
+class Art extends bookshelf.Model {
+  get tableName() {
+    return 'arts';
+  }
+  get hasTimestamps() {
+    return true;
+  }
 
-  author(){
+  author() {
     return this.belongsTo('User', 'author_id');
   }
 }

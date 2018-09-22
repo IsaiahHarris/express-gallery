@@ -1,4 +1,4 @@
-console.log('smoke test')
+console.log('smoke test');
 
 let desc = document.getElementsByClassName('description');
 
@@ -9,8 +9,8 @@ for (let i = 0; i < desc.length; i++) {
 function descSwitchClassName() {
   console.log(this);
   if (this.className === 'description') {
-    this.className = 'active'
+    this.className = 'active';
   } else if (this.className === 'active') {
-    this.className = 'description'
+    this.className = 'description';
   }
 }

@@ -31,7 +31,7 @@ app.use(session({
   store: new Redis(),
   secret: 'keyboard cat',
   resave: false,
-  saveUninitialized: true
+
 }))
 
 
@@ -94,9 +94,10 @@ passport.use(new LocalStrategy({
     })
 }))
 
-app.get('/', (req,res)=>{
+app.get('/', (req, res) => {
   res.render('login')
 })
+
 app.get('/register', (req, res) => {
   res.render('gallery/register', {
     message: req.flash('err'),
@@ -111,7 +112,6 @@ app.get('/login', (req, res) => {
 })
 
 app.post('/register', (req, res) => {
-
   bcrypt.genSalt(saltedRounds, (err, salt) => {
     if (err) {
       return res.status(500)
