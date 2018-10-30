@@ -6,6 +6,7 @@ const helper = require('./helper');
 
 router.use(helper.isAuthenticated);
 
+//CRUD routes for art
 router
   .route('/')
   .get((req, res) => {

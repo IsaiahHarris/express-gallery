@@ -3,8 +3,10 @@ const router = express.Router();
 const User = require('../models/User');
 const helper = require('./helper');
 
+// user can't access any of these routes unless they are authenticated
 router.use(helper.isAuthenticated);
 
+// get all users that are not deleted
 router.get('/', (req, res) => {
   return User.query({ where: { deleted_at: null } })
     .fetchAll()
@@ -27,6 +29,7 @@ router.get('/', (req, res) => {
     });
 });
 
+//get a single user
 router.get('/:id', (req, res) => {
   let id = req.params.id;
   return new User({ id: id })
@@ -47,6 +50,7 @@ router.get('/:id', (req, res) => {
     });
 });
 
+//delete a user
 router.delete('/:id', helper.isAdmin, (req, res) => {
   let id = req.params.id;
   const deleted_at = helper.getDate();

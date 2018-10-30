@@ -1,3 +1,4 @@
+//check if user is authenticated
 function isAuthenticated(req, res, next) {
   console.log('isAuthenticated');
   if (req.isAuthenticated()) {
@@ -6,7 +7,7 @@ function isAuthenticated(req, res, next) {
     return res.redirect('/login');
   }
 }
-
+// get data function, should refactor to Date()
 function getDate() {
   now = new Date();
   year = '' + now.getFullYear();
@@ -35,6 +36,7 @@ function getDate() {
   );
 }
 
+// check if user is 'admin'
 function isAdmin(req, res, next) {
   if (req.user.id === 25) {
     next();
