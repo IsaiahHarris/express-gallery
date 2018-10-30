@@ -1,31 +1,35 @@
-.new-art-page-container{
+.new-art-page-container {
   height: 100%;
   width: 100%;
-  background-color:#383838;
+  background-color: #383838;
 }
 
-.new-art-header{
-  width:100%;
+.new-art-header {
+  width: 100%;
   height: 13%;
-  display:flex;
+  display: flex;
   justify-content: center;
   align-items: center;
-  color:white;
-  font-size:26px;
+  color: white;
+  font-size: 26px;
   border: rgb(196, 196, 196) solid 0.5px;
 }
 
-.new-art-form-container{
+.new-art-form-container {
   display: flex;
   flex-direction: column;
-  width:100%;
+  width: 100%;
   height: 500px;
-  align-items:center;
+  align-items: center;
   justify-content: center;
-  
 }
 
-.new-author, .new-link, .new-description, .new-submit, .go-back-home, .link-to-photo{
+.new-author,
+.new-link,
+.new-description,
+.new-submit,
+.go-back-home,
+.link-to-photo {
   width: 60%;
   height: 33px;
   letter-spacing: 0.2px;
@@ -33,85 +37,88 @@
   margin-top: 45px;
 }
 
-.go-back-home{
-  margin-top:150px;
+.go-back-home {
+  margin-top: 150px;
   background-color: aqua;
   width: 100%;
   height: 35px;
 }
 
-.new-submit{
+.new-submit {
   background-color: aqua;
 }
-.new-form{
+.new-form {
   height: 350px;
 }
-.back-form{
+.back-form {
   height: 37px;
-  width:60%;
+  width: 60%;
 }
-.back-container{
+.back-container {
   display: flex;
-  width:100%;
+  width: 100%;
   height: 37px;
   justify-content: center;
 }
 
-.hi{
-  font-size:50px;
+.hi {
+  font-size: 50px;
 }
 
-@media(min-width: 768px){
-  .new-art-header{
-    width:100%;
+@media (min-width: 768px) {
+  .new-art-header {
+    width: 100%;
     height: 20%;
-    display:flex;
+    display: flex;
     justify-content: center;
     align-items: center;
-    color:white;
-    font-size:80px;
+    color: white;
+    font-size: 80px;
     border: rgb(196, 196, 196) solid 0.5px;
   }
 
-  .new-art-form-container{
+  .new-art-form-container {
     display: flex;
     flex-direction: column;
-    width:100%;
+    width: 100%;
     height: 1000px;
-    align-items:center;
+    align-items: center;
     justify-content: space-around;
-    
   }
-  
-  .new-author, .new-link, .new-description, .new-submit, .go-back-home, .link-to-photo{
+
+  .new-author,
+  .new-link,
+  .new-description,
+  .new-submit,
+  .go-back-home,
+  .link-to-photo {
     width: 60%;
     height: 55px;
     letter-spacing: 0.2px;
     background-color: whitesmoke;
     margin-top: 45px;
   }
-  .go-back-home{
+  .go-back-home {
     background-color: aqua;
     width: 100%;
   }
-  
-  .new-submit{
+
+  .new-submit {
     background-color: aqua;
   }
-  .new-form{
+  .new-form {
     height: 1px;
   }
-  .back-form{
+  .back-form {
     height: 37px;
-    width:60%;
-    
+    width: 60%;
   }
-  .back-container{
+  .back-container {
     display: flex;
-    width:100%;
+    width: 100%;
     height: 37px;
     justify-content: center;
     align-items: flex-start;
     margin-bottom: 50px;
-  } 
+  }
 }
